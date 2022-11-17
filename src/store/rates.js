@@ -1,9 +1,9 @@
-import { getExchangeRates } from '../api'
+import { getExchangeRates } from '../api';
 
 const initialState = {
   amount: '19.99',
   currencyCode: 'USD',
-  currencyData: { USD: 1.0 },
+  currencyData: { USD: 1.0 }
 }
 
 export const supportedCurrencies = ["USD", "EUR", "JPY", "CAD", "GBP", "MXN"];
@@ -20,7 +20,7 @@ export const ratesReducer = (state=initialState, action) => {
         ...state,
         currencyCode: action.payload
       }
-    case 'rates/ratesReceived':
+    case RATES_RECEIVED:
       return {
         ...state,
         currencyData: action.payload
@@ -38,6 +38,7 @@ export const getCurrencyData = (state) => state.rates.currencyData
 //ACTION TYPES:
 export const AMOUNT_CHANGED = 'rates/amountChanged'
 export const CURRENCY_CODE_CHANGED = 'rates/currencyCodeChanged'
+export const RATES_RECEIVED = 'rates/ratesReceived'
 
 //ACTION CREATORS:
 export const changeAmount = (amount) => ({
@@ -66,7 +67,7 @@ export function changeCurrencyCode(currencyCode) {
     });
     getExchangeRates(currencyCode, supportedCurrencies).then((rates) => {
       dispatch({
-        type: 'rates/ratesReceived',
+        type: RATES_RECEIVED,
         payload: rates,
       })
     })
